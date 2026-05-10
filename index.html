@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#241d19">
 
     <link rel="icon" type="image/png" href="favicon.png">
-    
+
     <title>Calculator by JJeon</title>
+
     <style>
         :root {
-            --bg-color: #2a221d;
+            --bg-color: #241d19;
+
             --panel-bg: #eaddcf;
-            --border-color: #4a3c31; /* 메인 테두리 색상 */
+            --border-color: #4a3c31;
+
             --btn-main: #b8a99a;
-            --btn-border: #8e7f72; /* 버튼 테두리 색상 - 약간 더 짙게 */
-            --btn-shadow: rgba(0,0,0,0.15); /* 부드럽고 약한 그림자 */
+            --btn-border: #8e7f72;
+            --btn-shadow: rgba(0,0,0,0.15);
+
             --accent-dark: #5d4037;
+
             --screen-bg: #4e443a;
             --text-main: #2d2016;
         }
@@ -50,11 +56,11 @@
             padding: 25px;
             display: flex;
             flex-direction: column;
-            box-shadow: 15px 15px 30px rgba(0,0,0,0.4), 
-                        inset -2px -2px 5px rgba(255,255,255,0.5);
+            box-shadow:
+                15px 15px 30px rgba(0,0,0,0.4),
+                inset -2px -2px 5px rgba(255,255,255,0.5);
         }
 
-        /* 디스플레이 섹션 */
         .display-area {
             display: flex;
             flex-direction: column;
@@ -77,10 +83,9 @@
             font-size: 1.6rem;
             color: #d4ffaa;
             font-family: 'Courier New', Courier, monospace;
-            text-shadow: 0 0 5px rgba(212, 255, 170, 0.5);
+            text-shadow: 0 0 5px rgba(212,255,170,0.5);
         }
 
-        /* 키패드 */
         .keypad {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -92,36 +97,35 @@
         button {
             background: var(--btn-main);
             color: var(--text-main);
-            /* 핵심 수정: 그림자 약화, 테두리 추가 */
-            border: 2px solid var(--btn-border); 
+            border: 2px solid var(--btn-border);
             border-radius: 50%;
             font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
             position: relative;
-            /* 부드러운 하단 그림자만 남김 */
-            box-shadow: 0 4px 0 var(--btn-shadow); 
-            transition: all 0.05s ease; /* 더 빠른 반응 */
+            box-shadow: 0 4px 0 var(--btn-shadow);
+            transition: all 0.05s ease;
+        }
+
+        button:hover {
+            filter: brightness(1.05);
         }
 
         button:active {
-            /* 눌렸을 때 효과: 테두리와 그림자 축소 */
             box-shadow: 0 1px 0 var(--btn-shadow);
             transform: translateY(3px);
         }
 
-        /* 0 버튼 */
         .zero-btn {
             grid-column: span 2;
             border-radius: 40px;
         }
 
-        /* = 버튼 - 더 명확한 대비 */
         .equal-btn {
             grid-row: span 2;
             border-radius: 40px;
             background: var(--accent-dark);
-            border-color: #3e2723; /* 더 짙은 테두리 */
+            border-color: #3e2723;
             color: white;
             box-shadow: 0 4px 0 rgba(0,0,0,0.3);
         }
@@ -130,7 +134,6 @@
             box-shadow: 0 1px 0 rgba(0,0,0,0.3);
         }
 
-        /* 기록 영역 */
         .history-list {
             flex: 1;
             background: #fdfaf7;
@@ -142,6 +145,14 @@
             border-left: 2px solid #e0d0c0;
             box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05);
             user-select: text;
+        }
+
+        .empty-history {
+            opacity: 0.45;
+
+            font-style: italic;
+
+            color: #776655;
         }
 
         .copy-btn {
@@ -156,79 +167,124 @@
             box-shadow: 0 4px 0 rgba(0,0,0,0.2);
         }
 
-        .copy-btn:active {
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2);
-            transform: translateY(3px);
+        .copy-btn:hover {
+            filter: brightness(1.1);
         }
 
-        .copy-btn:hover { filter: brightness(1.1); }
+        .copy-btn:active {
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2);
 
-        @media (max-width: 850px) {
-            .main-wrapper { flex-direction: column; height: auto; align-items: center; }
-            .panel { width: 100%; max-width: 400px; height: 500px; }
-            .keypad { grid-template-rows: repeat(5, 1fr); }
-            button { aspect-ratio: 1/1; }
-            .zero-btn, .equal-btn { aspect-ratio: auto; }
+            transform: translateY(3px);
         }
 
         .signature {
             position: fixed;
             left: 18px;
             bottom: 12px;
-
             font-family: 'Courier New', monospace;
             font-size: 0.75rem;
             letter-spacing: 1px;
-
-            color: rgba(212, 255, 170, 0.45);
-
+            color: rgba(212,255,170,0.45);
             text-shadow: 0 0 4px rgba(212,255,170,0.2);
-
             pointer-events: none;
         }
+
+        @media (max-width: 850px) {
+
+            .main-wrapper {
+                flex-direction: column;
+                height: auto;
+                align-items: center;
+            }
+
+            .panel {
+                width: 100%;
+                max-width: 400px;
+                height: 500px;
+            }
+
+            .keypad {
+                grid-template-rows: repeat(5, 1fr);
+            }
+
+            button {
+                aspect-ratio: 1/1;
+            }
+
+            .zero-btn,
+            .equal-btn {
+                aspect-ratio: auto;
+            }
+
+            .signature {
+                display: none;
+            }
+        }
+
     </style>
 </head>
+
 <body oncontextmenu="return false">
 
 <div class="main-wrapper">
+
     <div class="panel">
+
         <div class="display-area">
             <div id="result-raw" class="screen">0</div>
             <div id="result-percent" class="screen">0%</div>
         </div>
+
         <div class="keypad">
+
             <button onclick="clearAll()">AC</button>
             <button onclick="input('/')">/</button>
             <button onclick="input('*')">×</button>
             <button onclick="deleteLast()">DEL</button>
-            
+
             <button onclick="input('7')">7</button>
             <button onclick="input('8')">8</button>
             <button onclick="input('9')">9</button>
             <button onclick="input('-')">-</button>
-            
+
             <button onclick="input('4')">4</button>
             <button onclick="input('5')">5</button>
             <button onclick="input('6')">6</button>
             <button onclick="input('+')">+</button>
-            
+
             <button onclick="input('1')">1</button>
             <button onclick="input('2')">2</button>
             <button onclick="input('3')">3</button>
+
             <button onclick="calculate()" class="equal-btn">=</button>
-            
+
             <button onclick="input('0')" class="zero-btn">0</button>
             <button onclick="input('.')">.</button>
+
         </div>
     </div>
 
     <div class="panel">
-        <div id="history" class="history-list"></div>
-        <button class="copy-btn" onclick="copyHistory()">기록 복사하기</button>
+
+        <div id="history" class="history-list">
+
+            <span class="empty-history">
+                계산 기록이 여기에 표시됩니다.
+            </span>
+
+        </div>
+
+        <button class="copy-btn" onclick="copyHistory()">
+            기록 복사하기
+        </button>
+
     </div>
+
 </div>
 
-    <div class="signature">by JJeon </div>
+<div class="signature">
+    by JJeon
+</div>
 
 <script>
     let currentInput = "";
@@ -236,46 +292,87 @@
     const percentDisplay = document.getElementById('result-percent');
     const historyBox = document.getElementById('history');
 
-    function input(val) { currentInput += val; updateDisplay(); }
-    function clearAll() { currentInput = ""; updateDisplay(); percentDisplay.innerText = "0%"; }
-    function deleteLast() { currentInput = currentInput.slice(0, -1); updateDisplay(); }
-    function updateDisplay() { rawDisplay.innerText = currentInput || "0"; }
+    function input(val) {
+        currentInput += val;
+        updateDisplay();
+    }
+
+    function clearAll() {
+        currentInput = "";
+        updateDisplay();
+        percentDisplay.innerText = "0%";
+    }
+
+    function deleteLast() {
+        currentInput = currentInput.slice(0, -1);
+        updateDisplay();
+    }
+
+    function updateDisplay() {
+        rawDisplay.innerText = currentInput || "0";
+    }
 
     function calculate() {
         try {
-            if(!currentInput) return;
+            if (!currentInput) return;
             const result = eval(currentInput);
-            const rawResult = Number.isInteger(result) ? result : parseFloat(result.toFixed(6));
-            const percentResult = (result * 100).toFixed(2) + "%";
-
+            const rawResult =
+                Number.isInteger(result)
+                ? result
+                : parseFloat(result.toFixed(6));
+            const percentResult =
+                (result * 100).toFixed(2) + "%";
             rawDisplay.innerText = rawResult;
             percentDisplay.innerText = percentResult;
-
+            if (historyBox.querySelector('.empty-history')) {
+                historyBox.innerHTML = "";
+            }
+            const now = new Date();
+            const time = now.toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
             const record = document.createElement('div');
             record.style.padding = "8px 0";
             record.style.borderBottom = "1px dashed #dcd0c5";
-            record.innerHTML = `<small style="color:#887766">${currentInput}</small><br><strong>= ${rawResult}</strong> <span style="font-size:0.8em; color:#a52a2a;">(${percentResult})</span>`;
+            record.innerHTML = `
+                <small style="color:#887766">
+                    [${time}] ${currentInput}
+                </small>
+                <br>
+                <strong>= ${rawResult}</strong>
+                <span style="font-size:0.8em; color:#a52a2a;">
+                    (${percentResult})
+                </span>
+            `;
             historyBox.appendChild(record);
             historyBox.scrollTop = historyBox.scrollHeight;
-
             currentInput = rawResult.toString();
-        } catch (e) { rawDisplay.innerText = "Error"; }
+        } catch (e) {
+            rawDisplay.innerText = "Error";
+        }
     }
 
     function copyHistory() {
         const text = historyBox.innerText;
-        if (!text) return;
-        navigator.clipboard.writeText(text).then(() => alert("계산 기록이 복사되었습니다."));
+        if (!text || text.includes("계산 기록이")) return;
+        navigator.clipboard.writeText(text)
+            .then(() => alert("계산 기록이 복사되었습니다."));
     }
 
     document.addEventListener('keydown', (e) => {
-        if (!isNaN(e.key) || ['+', '-', '*', '/', '.'].includes(e.key)) input(e.key);
+        if (
+            !isNaN(e.key)
+            || ['+', '-', '*', '/', '.'].includes(e.key)
+        ) {
+            input(e.key);
+        }
         if (e.key === 'Enter') calculate();
         if (e.key === 'Backspace') deleteLast();
         if (e.key === 'Escape') clearAll();
     });
-
     document.addEventListener('contextmenu', e => e.preventDefault());
+
 </script>
 
 </body>
