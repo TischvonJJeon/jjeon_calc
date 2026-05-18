@@ -11,16 +11,18 @@
 
     <style>
         :root {
-            --bg-color: #241d19;
+            --bg-color: #1e1915;
 
-            --panel-bg: #eaddcf;
+            --panel-bg: #f2e8df;
             --border-color: #4a3c31;
 
-            --btn-main: #b8a99a;
-            --btn-border: #8e7f72;
-            --btn-shadow: rgba(0,0,0,0.15);
+            --btn-main: #d9cebd;
+            --btn-hover: #cfc1ae;
+            --btn-border: rgba(74, 60, 49, 0.1);
+            --btn-shadow: rgba(0,0,0,0.1);
 
             --accent-dark: #5d4037;
+            --accent-hover: #4e342e;
 
             --screen-bg: #4e443a;
             --text-main: #2d2016;
@@ -50,15 +52,17 @@
 
         .panel {
             flex: 1;
-            background: linear-gradient(145deg, #f5ebe0, #d2c4b6);
-            border: 6px solid var(--border-color);
-            border-radius: 30px;
+            background: var(--panel-bg);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 24px;
             padding: 25px;
             display: flex;
             flex-direction: column;
             box-shadow:
-                15px 15px 30px rgba(0,0,0,0.4),
-                inset -2px -2px 5px rgba(255,255,255,0.5);
+                20px 20px 60px rgba(0,0,0,0.3),
+                -5px -5px 20px rgba(255,255,255,0.02);
+            position: relative;
+            overflow: hidden;
         }
 
         .display-area {
@@ -67,9 +71,9 @@
             gap: 10px;
             margin-bottom: 25px;
             background: var(--border-color);
-            padding: 10px;
-            border-radius: 12px;
-            box-shadow: inset 0 4px 8px rgba(0,0,0,0.5);
+            padding: 15px;
+            border-radius: 16px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.4);
         }
 
         .screen {
@@ -80,10 +84,12 @@
             align-items: center;
             justify-content: flex-end;
             padding: 0 15px;
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             color: #d4ffaa;
             font-family: 'Courier New', Courier, monospace;
             text-shadow: 0 0 5px rgba(212,255,170,0.5);
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
         }
 
         .keypad {
@@ -97,54 +103,69 @@
         button {
             background: var(--btn-main);
             color: var(--text-main);
-            border: 2px solid var(--btn-border);
-            border-radius: 50%;
+            border: 1px solid var(--btn-border);
+            border-radius: 16px;
             font-size: 1.1rem;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
             position: relative;
-            box-shadow: 0 4px 0 var(--btn-shadow);
-            transition: all 0.05s ease;
+            box-shadow: 0 2px 4px var(--btn-shadow);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         button:hover {
-            filter: brightness(1.05);
+            background: var(--btn-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--btn-shadow);
         }
 
         button:active {
-            box-shadow: 0 1px 0 var(--btn-shadow);
-            transform: translateY(3px);
+            transform: translateY(0);
+            box-shadow: 0 1px 2px var(--btn-shadow);
+            filter: brightness(0.95);
         }
 
         .zero-btn {
             grid-column: span 2;
-            border-radius: 40px;
+            border-radius: 16px;
         }
 
         .equal-btn {
             grid-row: span 2;
-            border-radius: 40px;
+            border-radius: 16px;
             background: var(--accent-dark);
-            border-color: #3e2723;
+            border: none;
             color: white;
-            box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(93, 64, 55, 0.3);
+        }
+
+        .equal-btn:hover {
+            background: var(--accent-hover);
+            box-shadow: 0 6px 15px rgba(93, 64, 55, 0.4);
         }
 
         .equal-btn:active {
-            box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+            box-shadow: 0 2px 4px rgba(93, 64, 55, 0.4);
         }
 
         .history-list {
             flex: 1;
-            background: #fdfaf7;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
             padding: 20px;
             overflow-y: auto;
             font-size: 0.95rem;
             color: #554433;
-            border-left: 2px solid #e0d0c0;
-            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.03);
             user-select: text;
+        }
+
+        .history-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .history-list::-webkit-scrollbar-thumb {
+            background: #d2c4b6;
+            border-radius: 10px;
         }
 
         .empty-history {
@@ -159,22 +180,22 @@
             margin-top: 15px;
             padding: 12px 25px;
             background: var(--accent-dark);
-            border: 2px solid #3e2723;
-            border-radius: 8px;
+            border: none;
+            border-radius: 12px;
             color: white;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
         }
 
         .copy-btn:hover {
-            filter: brightness(1.1);
+            background: var(--accent-hover);
+            transform: translateY(-2px);
         }
 
         .copy-btn:active {
-            box-shadow: 0 1px 0 rgba(0,0,0,0.2);
-
-            transform: translateY(3px);
+            transform: translateY(0);
         }
 
         .signature {
